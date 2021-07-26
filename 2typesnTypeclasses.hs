@@ -43,13 +43,13 @@ type Code = String
 type LockerMap = Map.Map Int (LockerState, Code)  
 
 
-lockerLookup :: Int -> LockerMap -> Either String Code  
+lockerLookup :: Int -> LockerMap -> Main.Either String Code  
 lockerLookup lockerNumber map =   
     case Map.lookup lockerNumber map of   
-        Nothing -> Left $ "Locker number " ++ show lockerNumber ++ " doesn't exist!"  
+        Nothing -> Main.Left $ "Locker number " ++ show lockerNumber ++ " doesn't exist!"  
         Just (state, code) -> if state /= Taken   
-                                then Right code  
-                                else Left $ "Locker " ++ show lockerNumber ++ " is already taken!" 
+                                then Main.Right code  
+                                else Main.Left $ "Locker " ++ show lockerNumber ++ " is already taken!" 
 
 
 lockers :: LockerMap  
@@ -61,3 +61,26 @@ lockers = Map.fromList
     ,(109,(Taken,"893JJ"))  
     ,(110,(Taken,"99292"))  
     ]  
+
+
+
+
+-- RECURSIVE DATA STRUCTURES:
+
+data List a = Empty | Cons a (List a) deriving (Show, Read, Eq, Ord)  -- Cons value constructor takes in a field of the same data type.
+
+-- data List a = Empty | Cons { listHead :: a, listTail :: List a} deriving (Show, Read, Eq, Ord)  // same as above, but with record syntax.
+
+
+
+
+-- We could define the above Cons constructor as infix by doing:
+infixr 5 :-:
+data List2 a = Empty2 | a :-: (List2 a) deriving (Show, Read, Eq, Ord)  
+-- where the number 5 is called 'fixity' ( its precedence )
+
+-- A function that adds two list of type List2 ( like ++ ):-
+infixr 5  .++  
+(.++) :: List2 a -> List2 a -> List2 a   
+Empty2 .++ ys = ys  
+(x :-: xs) .++ ys = x :-: (xs .++ ys)  
