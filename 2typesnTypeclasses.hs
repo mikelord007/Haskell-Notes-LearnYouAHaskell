@@ -84,3 +84,31 @@ infixr 5  .++
 (.++) :: List2 a -> List2 a -> List2 a   
 Empty2 .++ ys = ys  
 (x :-: xs) .++ ys = x :-: (xs .++ ys)  
+
+
+
+-- Binary Search Tree Implementation:
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq) 
+
+-- function to "insert" values in a tree:
+singleton :: a -> Tree a  
+singleton x = Node x EmptyTree EmptyTree  
+  
+treeInsert :: (Ord a) => a -> Tree a -> Tree a  
+treeInsert x EmptyTree = Main.singleton x  
+treeInsert x (Node a left right)   
+    | x == a = Node x left right  
+    | x < a  = Node a (treeInsert x left) right  
+    | x > a  = Node a left (treeInsert x right)  
+
+-- function that checks presence of element in a tree:
+treeElem :: (Ord a) => a -> Tree a -> Bool  
+treeElem x EmptyTree = False  
+treeElem x (Node a left right)  
+    | x == a = True  
+    | x < a  = treeElem x left  
+    | x > a  = treeElem x right  
+
+-- you can create a tree from list as:
+let nums = [8,6,4,1,7,3,5] 
+let numsTree = foldr treeInsert EmptyTree nums  
