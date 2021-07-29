@@ -31,7 +31,32 @@ instance Show TrafficLight where
 
 
 -- only concrete types can be made instances of classes:
-instance (Eq m) => Eq (Maybe m) where  
-    Just x == Just y = x == y  
-    Nothing == Nothing = True  
-    _ == _ = False
+-- instance (Eq m) => Eq (Maybe m) where  
+--     Just x == Just y = x == y  
+--     Nothing == Nothing = True  
+--     _ == _ = False  
+
+
+-- A Yes-no Typeclass
+
+class YesNo a where
+    yesno :: a -> Bool
+
+instance YesNo Int where
+    yesno 0 = False
+    yesno _ = True
+
+instance YesNo  [a] where
+    yesno [] = False
+    yesno _ = True
+
+instance YesNo Bool where
+    yesno  = id
+
+instance YesNo (Maybe a) where
+    yesno (Just _) = True
+    yesno Nothing = False
+
+instance YesNo Char where
+    yesno 'a' = False
+    yesno _ = True
