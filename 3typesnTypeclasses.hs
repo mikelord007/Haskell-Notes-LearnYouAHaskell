@@ -79,9 +79,29 @@ instance Functor Maybe where
 
 instance Functor Tree where  
     fmap f EmptyTree = EmptyTree  
-    fmap f (Node x leftsub rightsub) = Node (f x) (fmap f leftsub) (fmap f rightsub)
+    fmap f (Node x leftsub rightsub) = Node (f x) (fmap f leftsub) (fmap f rightsub)  
 
 instance Functor (Either a) where  
     fmap f (Right x) = Right (f x)  
     fmap f (Left x) = Left x  
 -}
+
+
+-- KINDS IN HASKELL
+
+-- Check the kind of data types in haskell by using :k (Type) in ghci
+
+class Tofu t where
+    tofu :: j a -> t a j 
+
+instance Tofu Frank where
+    tofu x = Frank x 
+
+data Frank a b = Frank {frankField :: b a } deriving Show
+
+-- another example:
+
+data Barry t k p = Barry { yabba :: p, dabba :: t k }  
+
+instance Functor (Barry a b) where  
+    fmap f (Barry {yabba = x, dabba = y}) = Barry {yabba = f x, dabba = y}  
