@@ -66,3 +66,4 @@ main2 = do
 
 
 -- The second law says that composing two functions and then mapping the resulting function over a functor should be the same as first mapping one function over the functor and then mapping the other one. Formally written, that means that ---- fmap (f . g) = fmap f . fmap g.
+
