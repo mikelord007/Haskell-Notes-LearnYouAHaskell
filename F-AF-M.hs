@@ -54,7 +54,7 @@ main2 = do
 -- it's instance is:
 {-
     instance Functor ((->) r) where  
-    fmap f g = (\x -> f (g x))  
+    fmap f g = (\x -> f (g x))     // equivalent to function composition: fmap = (.)   
 -}
 
 
